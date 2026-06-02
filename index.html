@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI-Ready Quiz? | ProMo Cymru</title>
+  <title>How AI-Ready Are You? | ProMo Cymru</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Afacad:wght@400;500&display=swap" rel="stylesheet" />
@@ -38,7 +38,6 @@
       padding: 2rem 1rem 4rem;
     }
 
-    /* Header */
     .site-header {
       width: 100%;
       max-width: 560px;
@@ -87,6 +86,12 @@
       margin-top: 1px;
     }
 
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .tagline-badge {
       font-family: 'Outfit', sans-serif;
       font-size: 11px;
@@ -98,7 +103,32 @@
       letter-spacing: 0.03em;
     }
 
-    /* Card */
+    .lang-toggle {
+      display: flex;
+      background: var(--white);
+      border: 1px solid rgba(35,31,32,0.12);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border: none;
+      background: transparent;
+      color: var(--grey);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      letter-spacing: 0.03em;
+    }
+
+    .lang-btn.active {
+      background: var(--orange);
+      color: white;
+    }
+
     .card {
       width: 100%;
       max-width: 560px;
@@ -109,7 +139,6 @@
       box-shadow: 0 2px 16px rgba(35,31,32,0.07);
     }
 
-    /* Intro screen */
     .intro-emoji { font-size: 48px; margin-bottom: 1rem; display: block; }
     .intro-title {
       font-family: 'Outfit', sans-serif;
@@ -159,7 +188,6 @@
     .start-btn:hover { background: #e07a02; }
     .start-btn:active { transform: scale(0.98); }
 
-    /* Progress */
     .progress-wrap {
       display: flex;
       align-items: center;
@@ -186,7 +214,6 @@
       white-space: nowrap;
     }
 
-    /* Question */
     .q-eyebrow {
       font-family: 'Outfit', sans-serif;
       font-size: 11px;
@@ -244,7 +271,6 @@
     .next-btn.active { opacity: 1; pointer-events: auto; }
     .next-btn.active:hover { background: #3a3637; }
 
-    /* Result */
     .result-top {
       text-align: center;
       padding-bottom: 1.5rem;
@@ -352,7 +378,6 @@
 
     .hidden { display: none !important; }
 
-    /* Footer */
     .site-footer {
       margin-top: 2rem;
       font-size: 12px;
@@ -366,6 +391,7 @@
       body { padding: 1.25rem 0.75rem 3rem; }
       .card { padding: 1.5rem; }
       .intro-title { font-size: 22px; }
+      .tagline-badge { display: none; }
     }
   </style>
 </head>
@@ -373,31 +399,35 @@
 
   <header class="site-header">
     <a class="logo" href="https://promo.cymru" target="_blank" rel="noopener">
-      <div class="logo-star">✦</div>
+      <div class="logo-star">&#10022;</div>
       <div>
         <div class="logo-name">ProMo</div>
         <span class="logo-cymru">cymru</span>
       </div>
     </a>
-    <span class="tagline-badge">AI Training</span>
+    <div class="header-right">
+      <span class="tagline-badge" id="header-badge">AI Training</span>
+      <div class="lang-toggle" role="group" aria-label="Choose language">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">Eng</button>
+        <button class="lang-btn" id="btn-cy" onclick="setLang('cy')">Cym</button>
+      </div>
+    </div>
   </header>
 
   <main class="card" role="main">
 
-    <!-- Intro screen -->
     <section id="intro-screen">
-      <span class="intro-emoji">🤖</span>
-      <h1 class="intro-title">How AI-ready are <span>you?</span></h1>
-      <p class="intro-body">Before we dive into today's session, take two minutes to check in with yourself. There are no right or wrong answers — just honest ones. You'll get a personalised result at the end that you can share in the chat.</p>
+      <span class="intro-emoji">&#129302;</span>
+      <h1 class="intro-title" id="intro-title">How AI-ready are <span>you?</span></h1>
+      <p class="intro-body" id="intro-body">Before we dive into today's session, take two minutes to check in with yourself. There are no right or wrong answers — just honest ones. You'll get a personalised result at the end that you can share in the chat.</p>
       <div class="intro-meta">
-        <div class="meta-pill">⏱ <span>2 minutes</span></div>
-        <div class="meta-pill">❓ <span>4 questions</span></div>
-        <div class="meta-pill">🎉 <span>Personalised result</span></div>
+        <div class="meta-pill">&#9201; <span id="meta-time">2 minutes</span></div>
+        <div class="meta-pill">&#10067; <span id="meta-qs">4 questions</span></div>
+        <div class="meta-pill">&#127881; <span id="meta-result">Personalised result</span></div>
       </div>
-      <button class="start-btn" id="start-btn">Let's go →</button>
+      <button class="start-btn" id="start-btn">Let's go &#8594;</button>
     </section>
 
-    <!-- Quiz screen -->
     <section id="quiz-screen" class="hidden">
       <div class="progress-wrap">
         <div class="progress-track">
@@ -408,10 +438,9 @@
       <div class="q-eyebrow" id="q-eyebrow">Question 1</div>
       <div class="q-text" id="q-text"></div>
       <div class="options" id="options"></div>
-      <button class="next-btn" id="next-btn">Next →</button>
+      <button class="next-btn" id="next-btn">Next &#8594;</button>
     </section>
 
-    <!-- Result screen -->
     <section id="result-screen" class="hidden">
       <div class="result-top">
         <span class="result-emoji-big" id="r-emoji"></span>
@@ -419,11 +448,11 @@
         <div class="result-title" id="r-title"></div>
       </div>
       <p class="result-body" id="r-body"></p>
-      <p class="tips-heading">Things to try after today</p>
+      <p class="tips-heading" id="tips-heading">Things to try after today</p>
       <ul class="tips-list" id="r-tips"></ul>
-      <p class="copy-instruction">Now you've got your result, click the copy button below and paste it into the meeting chat.</p>
-      <button class="copy-btn" id="copy-btn">📋 Copy my result</button>
-      <button class="restart-btn" id="restart-btn">↩ Start again</button>
+      <p class="copy-instruction" id="copy-instruction">Now you've got your result, click the copy button below and paste it into the meeting chat.</p>
+      <button class="copy-btn" id="copy-btn">&#128203; Copy my result</button>
+      <button class="restart-btn" id="restart-btn">&#8617; Start again</button>
     </section>
 
   </main>
@@ -433,128 +462,297 @@
   </footer>
 
   <script>
-    const questions = [
-      {
-        text: "When someone mentions AI at work, what's your gut reaction? 👀",
-        options: [
-          { label: "😬 Slight panic — where do I even start?", score: 1 },
-          { label: "🤔 Curious but cautious", score: 2 },
-          { label: "👍 Interested — I've been exploring a bit", score: 3 },
-          { label: "🙋 Excited — I already use it regularly", score: 4 }
+    var lang = 'en';
+
+    var content = {
+      en: {
+        pageTitle: 'How AI-Ready Are You? | ProMo Cymru',
+        badge: 'AI Training',
+        introTitle: 'How AI-ready are <span>you?</span>',
+        introBody: "Before we dive into today's session, take two minutes to check in with yourself. There are no right or wrong answers — just honest ones. You'll get a personalised result at the end that you can share in the chat.",
+        metaTime: '2 minutes',
+        metaQs: '4 questions',
+        metaResult: 'Personalised result',
+        startBtn: "Let's go \u2192",
+        questionLabel: 'Question',
+        nextBtn: 'Next \u2192',
+        finishBtn: 'See my result \uD83C\uDF89',
+        progressDone: '\u2713 Done',
+        tipsHeading: 'Things to try after today',
+        copyInstruction: "Now you've got your result, click the copy button below and paste it into the meeting chat.",
+        copyBtn: '\uD83D\uDCCB Copy my result',
+        copiedBtn: '\u2705 Copied!',
+        copyFailed: '\u26A0\uFE0F Copy failed \u2014 please copy manually',
+        restartBtn: '\u21A9 Start again',
+        questions: [
+          {
+            text: "When someone mentions AI at work, what's your gut reaction? \uD83D\uDC40",
+            options: [
+              { label: "\uD83D\uDE2C Slight panic \u2014 where do I even start?", score: 1 },
+              { label: "\uD83E\uDD14 Curious but cautious", score: 2 },
+              { label: "\uD83D\uDC4D Interested \u2014 I've been exploring a bit", score: 3 },
+              { label: "\uD83D\uDE4B Excited \u2014 I already use it regularly", score: 4 }
+            ]
+          },
+          {
+            text: "Have you ever used an AI tool like ChatGPT, Copilot, or Claude for work?",
+            options: [
+              { label: "\u274C Not yet", score: 1 },
+              { label: "\uD83D\uDC23 Once or twice, just to see what the fuss was about", score: 2 },
+              { label: "\uD83D\uDD04 A few times, with mixed results", score: 3 },
+              { label: "\u2705 Yes \u2014 it's part of how I work now", score: 4 }
+            ]
+          },
+          {
+            text: "How would you describe your confidence in talking about AI with young people?",
+            options: [
+              { label: "\uD83D\uDE36 I'd rather change the subject", score: 1 },
+              { label: "\uD83E\uDEE4 I can listen but wouldn't lead the conversation", score: 2 },
+              { label: "\uD83D\uDCAC I can hold a decent chat about it", score: 3 },
+              { label: "\uD83C\uDFA4 I'd happily facilitate a discussion about it", score: 4 }
+            ]
+          },
+          {
+            text: "When you think about AI and your youth work practice, what feels most true?",
+            options: [
+              { label: "\uD83E\uDD37 I genuinely have no idea where it fits", score: 1 },
+              { label: "\uD83E\uDDE9 I can see possibilities but haven't tried anything", score: 2 },
+              { label: "\uD83C\uDF31 I've had a few small ideas I want to explore", score: 3 },
+              { label: "\uD83D\uDE80 I've got plans \u2014 I just need more knowledge", score: 4 }
+            ]
+          }
+        ],
+        results: [
+          {
+            min: 4, max: 6,
+            emoji: "\uD83C\uDF31",
+            tag: "Fresh start",
+            title: "The Curious Newcomer",
+            chatLine: "AI is still pretty new territory for me, but I'm here and ready to learn!",
+            body: "AI is still a pretty unfamiliar space for you \u2014 and that's completely fine! You're in the right place today. Everyone starts somewhere, and the fact that you're here says a lot. By the end of this session, you'll have a much clearer picture of what AI actually is (and isn't), and some practical ideas for how it might fit into your work.",
+            tips: [
+              "Get hands-on \u2014 try asking an AI chatbot a simple question today",
+              "Think about one task in your work that feels repetitive",
+              "Remember: AI is a tool, not a replacement for you"
+            ]
+          },
+          {
+            min: 7, max: 10,
+            emoji: "\uD83D\uDD0D",
+            tag: "Exploring the territory",
+            title: "The Interested Explorer",
+            chatLine: "I've started poking around the edges of AI and I've got more questions than answers \u2014 but I'm ready to dig in!",
+            body: "You're aware of AI and you've started poking around the edges \u2014 brilliant. You probably have more questions than answers right now, which is exactly the right place to be. This session should help you move from 'I've heard of it' to 'I actually get it', and give you some confidence to start experimenting more intentionally.",
+            tips: [
+              "Try one AI tool consistently for a week and see what you learn",
+              "Think about what questions young people are already asking about AI",
+              "Don't wait until you feel 'ready' \u2014 learning by doing works best"
+            ]
+          },
+          {
+            min: 11, max: 13,
+            emoji: "\u26A1",
+            tag: "Building momentum",
+            title: "The Confident Experimenter",
+            chatLine: "I've been experimenting with AI and starting to see how it can be genuinely useful \u2014 keen to go further!",
+            body: "You've got some real experience under your belt and you're starting to see how AI can be genuinely useful. You might still hit walls or feel uncertain in some areas \u2014 that's normal at this stage. Today's session should help you fill in some of the gaps, think more critically about AI in youth work, and pick up some new approaches to bring back to your practice.",
+            tips: [
+              "Think about how you can help colleagues who are earlier in this journey",
+              "Explore AI ethics and bias \u2014 it's worth going deeper on",
+              "Try using AI to support session planning or resource creation"
+            ]
+          },
+          {
+            min: 14, max: 16,
+            emoji: "\uD83D\uDE80",
+            tag: "Already flying",
+            title: "The AI Enthusiast",
+            chatLine: "I'm well ahead of the curve and already switched on to what AI can do \u2014 today is about going even deeper!",
+            body: "Look at you! You're already well ahead of the curve and clearly switched on to what AI can do. Today's session is a chance to go deeper \u2014 think more critically, share your knowledge with others, and explore some of the trickier questions around using AI responsibly with young people. Your experience will be a real asset to the room.",
+            tips: [
+              "Think about how you'd explain AI risks to a young person",
+              "Explore how you might use AI to amplify young people's voices",
+              "Challenge yourself: where are the limits of AI in your practice?"
+            ]
+          }
         ]
       },
-      {
-        text: "Have you ever used an AI tool like ChatGPT, Copilot, or Claude for work?",
-        options: [
-          { label: "❌ Not yet", score: 1 },
-          { label: "🐣 Once or twice, just to see what the fuss was about", score: 2 },
-          { label: "🔄 A few times, with mixed results", score: 3 },
-          { label: "✅ Yes — it's part of how I work now", score: 4 }
-        ]
-      },
-      {
-        text: "How would you describe your confidence in talking about AI with young people?",
-        options: [
-          { label: "😶 I'd rather change the subject", score: 1 },
-          { label: "🫤 I can listen but wouldn't lead the conversation", score: 2 },
-          { label: "💬 I can hold a decent chat about it", score: 3 },
-          { label: "🎤 I'd happily facilitate a discussion about it", score: 4 }
-        ]
-      },
-      {
-        text: "When you think about AI and your youth work practice, what feels most true?",
-        options: [
-          { label: "🤷 I genuinely have no idea where it fits", score: 1 },
-          { label: "🧩 I can see possibilities but haven't tried anything", score: 2 },
-          { label: "🌱 I've had a few small ideas I want to explore", score: 3 },
-          { label: "🚀 I've got plans — I just need more knowledge", score: 4 }
+      cy: {
+        pageTitle: 'Pa mor Barod ydych chi am AI? | ProMo Cymru',
+        badge: 'Hyfforddiant AI',
+        introTitle: 'Pa mor barod ydych chi am <span>AI?</span>',
+        introBody: "Cyn i ni blymio i mewn i sesiwn heddiw, cymerwch ddau funud i feddwl am ble rydych chi arni. Does dim atebion cywir nac anghywir \u2014 dim ond atebion gonest. Fe gewch chi ganlyniad personol ar y diwedd y gallwch chi ei rannu yn y sgwrs.",
+        metaTime: '2 funud',
+        metaQs: '4 cwestiwn',
+        metaResult: 'Canlyniad personol',
+        startBtn: "Ffwrdd \u00e2 ni \u2192",
+        questionLabel: 'Cwestiwn',
+        nextBtn: 'Nesaf \u2192',
+        finishBtn: 'Gweld fy nghanlyniad \uD83C\uDF89',
+        progressDone: '\u2713 Gorffenwyd',
+        tipsHeading: 'Pethau i\u2019w rhoi cynnig arnynt ar \u00f4l heddiw',
+        copyInstruction: "Nawr bod gennych chi eich canlyniad, cliciwch y botwm copïo isod a'i baste i mewn i sgwrs y cyfarfod.",
+        copyBtn: '\uD83D\uDCCB Copïo fy nghanlyniad',
+        copiedBtn: '\u2705 Wedi copïo!',
+        copyFailed: '\u26A0\uFE0F Methodd y copïo \u2014 ceisiwch gopïo \u00e2 llaw',
+        restartBtn: '\u21A9 Dechrau eto',
+        questions: [
+          {
+            text: "Pan fo rhywun yn s\u00f4n am AI yn y gwaith, beth yw eich ymateb cyntaf? \uD83D\uDC40",
+            options: [
+              { label: "\uD83D\uDE2C Ychydig o banig \u2014 o ble mae dechrau?", score: 1 },
+              { label: "\uD83E\uDD14 Chwilfrydig ond gofalus", score: 2 },
+              { label: "\uD83D\uDC4D Diddordeb \u2014 dw i wedi bod yn archwilio ychydig", score: 3 },
+              { label: "\uD83D\uDE4B Cyffrous \u2014 dw i eisoes yn ei ddefnyddio'n rheolaidd", score: 4 }
+            ]
+          },
+          {
+            text: "Ydych chi erioed wedi defnyddio offeryn AI fel ChatGPT, Copilot, neu Claude ar gyfer y gwaith?",
+            options: [
+              { label: "\u274C Ddim eto", score: 1 },
+              { label: "\uD83D\uDC23 Unwaith neu ddwy, i weld beth oedd y ffws", score: 2 },
+              { label: "\uD83D\uDD04 Ychydig o weithiau, gyda chanlyniadau cymysg", score: 3 },
+              { label: "\u2705 Do \u2014 mae'n rhan o sut dw i'n gweithio nawr", score: 4 }
+            ]
+          },
+          {
+            text: "Sut fyddech chi'n disgrifio eich hyder wrth siarad am AI gyda phobl ifanc?",
+            options: [
+              { label: "\uD83D\uDE36 Byddai'n well gen i newid y pwnc", score: 1 },
+              { label: "\uD83E\uDEE4 Gallaf wrando ond ni fyddwn yn arwain y sgwrs", score: 2 },
+              { label: "\uD83D\uDCAC Gallaf gynnal sgwrs resymol amdano", score: 3 },
+              { label: "\uD83C\uDFA4 Byddwn wrth fy modd yn hwyluso trafodaeth amdano", score: 4 }
+            ]
+          },
+          {
+            text: "Wrth feddwl am AI a'ch gwaith ieuenctid, pa un sy'n teimlo fwyaf gwir?",
+            options: [
+              { label: "\uD83E\uDD37 Does gen i ddim syniad go iawn ble mae'n ffitio", score: 1 },
+              { label: "\uD83E\uDDE9 Gallaf weld posibiliadau ond heb roi cynnig ar ddim", score: 2 },
+              { label: "\uD83C\uDF31 Mae gen i rai syniadau bach yr hoffwn eu harchwilio", score: 3 },
+              { label: "\uD83D\uDE80 Mae gen i gynlluniau \u2014 dim ond mwy o wybodaeth sydd ei angen arnaf", score: 4 }
+            ]
+          }
+        ],
+        results: [
+          {
+            min: 4, max: 6,
+            emoji: "\uD83C\uDF31",
+            tag: "Dechrau newydd",
+            title: "Y Dechreuwr Chwilfrydig",
+            chatLine: "Mae AI yn dal yn dir newydd i mi, ond dw i yma ac yn barod i ddysgu!",
+            body: "Mae AI yn dal yn faes eithaf dieithr i chi \u2014 ac mae hynny'n hollol iawn! Rydych chi yn y lle iawn heddiw. Mae pawb yn dechrau yn rhywle, ac mae'r ffaith eich bod chi yma yn dweud llawer. Erbyn diwedd y sesiwn hon, bydd gennych chi darlun llawer cliriach o beth yw AI mewn gwirionedd (a beth nad yw), a rhai syniadau ymarferol ar sut y gallai ffitio i mewn i'ch gwaith.",
+            tips: [
+              "Rhowch gynnig arni \u2014 ceisiwch ofyn cwestiwn syml i chatbot AI heddiw",
+              "Meddyliwch am un dasg yn eich gwaith sy'n teimlo'n ailadroddus",
+              "Cofiwch: offeryn yw AI, nid rhywbeth i gymryd eich lle chi"
+            ]
+          },
+          {
+            min: 7, max: 10,
+            emoji: "\uD83D\uDD0D",
+            tag: "Archwilio'r tir",
+            title: "Yr Archwiliwr Diddorol",
+            chatLine: "Dw i wedi dechrau archwilio AI ac mae gen i fwy o gwestiynau nag atebion \u2014 ond dw i'n barod i fynd amdani!",
+            body: "Rydych chi'n ymwybodol o AI ac wedi dechrau archwilio \u2014 gwych. Mae'n debyg bod gennych chi fwy o gwestiynau nag atebion ar hyn o bryd, sy'n union ble dylech chi fod. Dylai'r sesiwn hon eich helpu i symud o 'dw i wedi clywed amdano' i 'dw i'n ei ddeall mewn gwirionedd', a rhoi rhywfaint o hyder i chi ddechrau arbrofi'n fwriadol.",
+            tips: [
+              "Rhowch gynnig ar un offeryn AI yn gyson am wythnos a gweld beth rydych chi'n ei ddysgu",
+              "Meddyliwch am ba gwestiynau mae pobl ifanc eisoes yn eu gofyn am AI",
+              "Peidiwch ag aros nes eich bod chi'n teimlo'n 'barod' \u2014 dysgu trwy wneud sy'n gweithio orau"
+            ]
+          },
+          {
+            min: 11, max: 13,
+            emoji: "\u26A1",
+            tag: "Ennill momentwm",
+            title: "Yr Arbrofwr Hyderus",
+            chatLine: "Dw i wedi bod yn arbrofi gydag AI ac yn dechrau gweld sut y gall fod yn ddefnyddiol go iawn \u2014 yn awyddus i fynd ymhellach!",
+            body: "Mae gennych chi brofiad go iawn erbyn hyn ac rydych chi'n dechrau gweld sut y gall AI fod yn ddefnyddiol go iawn. Efallai y byddwch chi'n dal i daro waliau neu'n teimlo'n ansicr mewn rhai meysydd \u2014 mae hynny'n normal ar y cam hwn. Dylai sesiwn heddiw eich helpu i lenwi rhai o'r bylchau, meddwl yn fwy beirniadol am AI mewn gwaith ieuenctid, a phigo rhai dulliau newydd i fynd yn \u00f4l i'ch ymarfer.",
+            tips: [
+              "Meddyliwch sut allwch chi helpu cydweithwyr sy'n gynharach ar y daith hon",
+              "Archwiliwch foeseg a thuedd AI \u2014 mae'n werth mynd yn ddyfnach",
+              "Rhowch gynnig ar ddefnyddio AI i gefnogi cynllunio sesiynau neu greu adnoddau"
+            ]
+          },
+          {
+            min: 14, max: 16,
+            emoji: "\uD83D\uDE80",
+            tag: "Eisoes yn hedfan",
+            title: "Yr Brwdfrydwr AI",
+            chatLine: "Dw i ymhell ar y blaen ac eisoes wedi fy neffro i beth all AI ei wneud \u2014 mae heddiw yn ymwneud \u00e2 mynd hyd yn oed yn ddyfnach!",
+            body: "Edrychwch arnoch chi! Rydych chi eisoes ymhell ar y blaen ac yn amlwg wedi eich neffro i beth all AI ei wneud. Mae sesiwn heddiw yn gyfle i fynd yn ddyfnach \u2014 meddwl yn fwy beirniadol, rhannu eich gwybodaeth ag eraill, ac archwilio rhai o'r cwestiynau anoddach am ddefnyddio AI yn gyfrifol gyda phobl ifanc. Bydd eich profiad yn ased gwirioneddol i'r ystafell.",
+            tips: [
+              "Meddyliwch sut fyddech chi'n egluro risgiau AI i berson ifanc",
+              "Archwiliwch sut y gallech chi ddefnyddio AI i gryfhau lleisiau pobl ifanc",
+              "Heriwch eich hun: ble mae cyfyngiadau AI yn eich ymarfer chi?"
+            ]
+          }
         ]
       }
-    ];
+    };
 
-    const results = [
-      {
-        min: 4, max: 6,
-        emoji: "🌱",
-        tag: "Fresh start",
-        title: "The Curious Newcomer",
-        chatLine: "AI is still pretty new territory for me, but I'm here and ready to learn!",
-        body: "AI is still a pretty unfamiliar space for you — and that's completely fine! You're in the right place today. Everyone starts somewhere, and the fact that you're here says a lot. By the end of this session, you'll have a much clearer picture of what AI actually is (and isn't), and some practical ideas for how it might fit into your work.",
-        tips: [
-          "Get hands-on — try asking an AI chatbot a simple question today",
-          "Think about one task in your work that feels repetitive",
-          "Remember: AI is a tool, not a replacement for you"
-        ]
-      },
-      {
-        min: 7, max: 10,
-        emoji: "🔍",
-        tag: "Exploring the territory",
-        title: "The Interested Explorer",
-        chatLine: "I've started poking around the edges of AI and I've got more questions than answers — but I'm ready to dig in!",
-        body: "You're aware of AI and you've started poking around the edges — brilliant. You probably have more questions than answers right now, which is exactly the right place to be. This session should help you move from 'I've heard of it' to 'I actually get it', and give you some confidence to start experimenting more intentionally.",
-        tips: [
-          "Try one AI tool consistently for a week and see what you learn",
-          "Think about what questions young people are already asking about AI",
-          "Don't wait until you feel 'ready' — learning by doing works best"
-        ]
-      },
-      {
-        min: 11, max: 13,
-        emoji: "⚡",
-        tag: "Building momentum",
-        title: "The Confident Experimenter",
-        chatLine: "I've been experimenting with AI and starting to see how it can be genuinely useful — keen to go further!",
-        body: "You've got some real experience under your belt and you're starting to see how AI can be genuinely useful. You might still hit walls or feel uncertain in some areas — that's normal at this stage. Today's session should help you fill in some of the gaps, think more critically about AI in youth work, and pick up some new approaches to bring back to your practice.",
-        tips: [
-          "Think about how you can help colleagues who are earlier in this journey",
-          "Explore AI ethics and bias — it's worth going deeper on",
-          "Try using AI to support session planning or resource creation"
-        ]
-      },
-      {
-        min: 14, max: 16,
-        emoji: "🚀",
-        tag: "Already flying",
-        title: "The AI Enthusiast",
-        chatLine: "I'm well ahead of the curve and already switched on to what AI can do — today is about going even deeper!",
-        body: "Look at you! You're already well ahead of the curve and clearly switched on to what AI can do. Today's session is a chance to go deeper — think more critically, share your knowledge with others, and explore some of the trickier questions around using AI responsibly with young people. Your experience will be a real asset to the room.",
-        tips: [
-          "Think about how you'd explain AI risks to a young person",
-          "Explore how you might use AI to amplify young people's voices",
-          "Challenge yourself: where are the limits of AI in your practice?"
-        ]
+    var current = 0;
+    var answers = [];
+    var selectedIndex = null;
+    var currentResult = null;
+
+    function setLang(l) {
+      lang = l;
+      document.getElementById('btn-en').classList.toggle('active', l === 'en');
+      document.getElementById('btn-cy').classList.toggle('active', l === 'cy');
+      document.documentElement.lang = l === 'cy' ? 'cy' : 'en';
+      document.title = content[lang].pageTitle;
+      document.getElementById('header-badge').textContent = content[lang].badge;
+
+      var introScreen = document.getElementById('intro-screen');
+      var quizScreen = document.getElementById('quiz-screen');
+      var resultScreen = document.getElementById('result-screen');
+
+      if (!introScreen.classList.contains('hidden')) {
+        renderIntro();
+      } else if (!quizScreen.classList.contains('hidden')) {
+        renderQuestion();
+      } else if (!resultScreen.classList.contains('hidden')) {
+        renderResultText();
       }
-    ];
-
-    let current = 0;
-    let answers = [];
-    let selectedIndex = null;
-
-    function getResult(score) {
-      return results.find(r => score >= r.min && score <= r.max) || results[0];
     }
 
-    document.getElementById('start-btn').addEventListener('click', () => {
+    function renderIntro() {
+      var c = content[lang];
+      document.getElementById('intro-title').innerHTML = c.introTitle;
+      document.getElementById('intro-body').textContent = c.introBody;
+      document.getElementById('meta-time').textContent = c.metaTime;
+      document.getElementById('meta-qs').textContent = c.metaQs;
+      document.getElementById('meta-result').textContent = c.metaResult;
+      document.getElementById('start-btn').innerHTML = c.startBtn;
+    }
+
+    function getResult(score) {
+      var res = content[lang].results;
+      return res.find(function(r) { return score >= r.min && score <= r.max; }) || res[0];
+    }
+
+    document.getElementById('start-btn').addEventListener('click', function() {
       document.getElementById('intro-screen').classList.add('hidden');
       document.getElementById('quiz-screen').classList.remove('hidden');
       renderQuestion();
     });
 
     function renderQuestion() {
-      const q = questions[current];
-      document.getElementById('q-eyebrow').textContent = 'Question ' + (current + 1);
+      var c = content[lang];
+      var q = c.questions[current];
+      document.getElementById('q-eyebrow').textContent = c.questionLabel + ' ' + (current + 1);
       document.getElementById('q-text').textContent = q.text;
-      document.getElementById('progress-fill').style.width = ((current / questions.length) * 100) + '%';
-      document.getElementById('progress-label').textContent = (current + 1) + ' / ' + questions.length;
+      document.getElementById('progress-fill').style.width = ((current / c.questions.length) * 100) + '%';
+      document.getElementById('progress-label').textContent = (current + 1) + ' / ' + c.questions.length;
 
-      const opts = document.getElementById('options');
+      var opts = document.getElementById('options');
       opts.innerHTML = '';
-      q.options.forEach((opt, i) => {
-        const btn = document.createElement('button');
+      q.options.forEach(function(opt, i) {
+        var btn = document.createElement('button');
         btn.className = 'opt-btn' + (answers[current] === i ? ' selected' : '');
         btn.textContent = opt.label;
-        btn.addEventListener('click', () => selectOption(i));
+        btn.addEventListener('click', function() { selectOption(i); });
         opts.appendChild(btn);
       });
 
@@ -565,22 +763,24 @@
     function selectOption(i) {
       answers[current] = i;
       selectedIndex = i;
-      document.querySelectorAll('.opt-btn').forEach((b, idx) => {
+      document.querySelectorAll('.opt-btn').forEach(function(b, idx) {
         b.classList.toggle('selected', idx === i);
       });
       updateNext();
     }
 
     function updateNext() {
-      const btn = document.getElementById('next-btn');
-      const isLast = current === questions.length - 1;
-      btn.textContent = isLast ? 'See my result 🎉' : 'Next →';
+      var c = content[lang];
+      var btn = document.getElementById('next-btn');
+      var isLast = current === c.questions.length - 1;
+      btn.innerHTML = isLast ? c.finishBtn : c.nextBtn;
       btn.classList.toggle('active', selectedIndex !== null);
     }
 
-    document.getElementById('next-btn').addEventListener('click', () => {
+    document.getElementById('next-btn').addEventListener('click', function() {
       if (selectedIndex === null) return;
-      if (current < questions.length - 1) {
+      var c = content[lang];
+      if (current < c.questions.length - 1) {
         current++;
         renderQuestion();
       } else {
@@ -589,69 +789,99 @@
     });
 
     function showResult() {
-      const score = answers.reduce((sum, a, i) => sum + questions[i].options[a].score, 0);
-      const r = getResult(score);
+      var c = content[lang];
+      var score = answers.reduce(function(sum, a, i) {
+        return sum + content[lang].questions[i].options[a].score;
+      }, 0);
+      currentResult = getResult(score);
 
       document.getElementById('progress-fill').style.width = '100%';
-      document.getElementById('progress-label').textContent = '✓ Done';
+      document.getElementById('progress-label').textContent = c.progressDone;
+
+      renderResultText();
+
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+    }
+
+    function renderResultText() {
+      var c = content[lang];
+      var score = answers.reduce(function(sum, a, i) {
+        return sum + content[lang].questions[i].options[a].score;
+      }, 0);
+      var r = getResult(score);
+      currentResult = r;
 
       document.getElementById('r-emoji').textContent = r.emoji;
       document.getElementById('r-tag').textContent = r.tag;
       document.getElementById('r-title').textContent = r.title;
       document.getElementById('r-body').textContent = r.body;
+      document.getElementById('tips-heading').textContent = c.tipsHeading;
+      document.getElementById('copy-instruction').textContent = c.copyInstruction;
 
-      const tipsList = document.getElementById('r-tips');
-      tipsList.innerHTML = r.tips.map(t =>
-        '<li><span class="tip-arrow">→</span><span>' + t + '</span></li>'
-      ).join('');
+      var copyBtn = document.getElementById('copy-btn');
+      copyBtn.innerHTML = c.copyBtn;
+      copyBtn.classList.remove('copied');
 
-      document.getElementById('quiz-screen').classList.add('hidden');
-      document.getElementById('result-screen').classList.remove('hidden');
+      document.getElementById('restart-btn').innerHTML = c.restartBtn;
 
-      const copyText = r.emoji + ' I\'m ' + r.title + '! ' + r.chatLine;
-
-      const copyBtn = document.getElementById('copy-btn');
-      copyBtn.addEventListener('click', () => {
-        function onSuccess() {
-          copyBtn.classList.add('copied');
-          copyBtn.textContent = '✅ Copied!';
-          setTimeout(() => {
-            copyBtn.classList.remove('copied');
-            copyBtn.textContent = '📋 Copy my result';
-          }, 2500);
-        }
-        function fallbackCopy() {
-          const ta = document.createElement('textarea');
-          ta.value = copyText;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.focus();
-          ta.select();
-          try {
-            document.execCommand('copy');
-            onSuccess();
-          } catch(e) {
-            copyBtn.textContent = '⚠️ Copy failed — please copy manually';
-          }
-          document.body.removeChild(ta);
-        }
-        if (navigator.clipboard && window.isSecureContext) {
-          navigator.clipboard.writeText(copyText).then(onSuccess).catch(fallbackCopy);
-        } else {
-          fallbackCopy();
-        }
-      });
+      var tipsList = document.getElementById('r-tips');
+      tipsList.innerHTML = r.tips.map(function(t) {
+        return '<li><span class="tip-arrow">\u2192</span><span>' + t + '</span></li>';
+      }).join('');
     }
 
-    document.getElementById('restart-btn').addEventListener('click', () => {
+    document.getElementById('copy-btn').addEventListener('click', function() {
+      var c = content[lang];
+      var r = currentResult;
+      if (!r) return;
+      var copyText = r.emoji + ' ' + (lang === 'cy' ? "Rwy'n " : "I'm ") + r.title + '! ' + r.chatLine;
+      var copyBtn = document.getElementById('copy-btn');
+
+      function onSuccess() {
+        copyBtn.classList.add('copied');
+        copyBtn.innerHTML = c.copiedBtn;
+        setTimeout(function() {
+          copyBtn.classList.remove('copied');
+          copyBtn.innerHTML = c.copyBtn;
+        }, 2500);
+      }
+
+      function fallbackCopy() {
+        var ta = document.createElement('textarea');
+        ta.value = copyText;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand('copy');
+          onSuccess();
+        } catch(e) {
+          copyBtn.textContent = c.copyFailed;
+        }
+        document.body.removeChild(ta);
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(copyText).then(onSuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    });
+
+    document.getElementById('restart-btn').addEventListener('click', function() {
       current = 0;
       answers = [];
       selectedIndex = null;
+      currentResult = null;
       document.getElementById('result-screen').classList.add('hidden');
       document.getElementById('quiz-screen').classList.remove('hidden');
       renderQuestion();
     });
+
+    renderIntro();
   </script>
 
 </body>
