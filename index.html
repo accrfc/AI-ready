@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How AI-Ready Are You? | ProMo Cymru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Afacad:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #FF8D03;
+      --orange-light: #FFF3E0;
+      --orange-dark: #5C3700;
+      --pink: #FC7AC8;
+      --blue: #3E7AFF;
+      --black: #231F20;
+      --grey: #6C6A6A;
+      --grey-light: #f5f4f2;
+      --white: #ffffff;
+      --radius: 14px;
+      --radius-sm: 9px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Afacad', sans-serif;
+      background: var(--grey-light);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* Header */
+    .site-header {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .logo-star {
+      width: 32px;
+      height: 32px;
+      background: var(--orange);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .logo-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .logo-cymru {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--grey);
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .tagline-badge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--orange);
+      border: 1.5px solid var(--orange);
+      border-radius: 99px;
+      padding: 4px 12px;
+      letter-spacing: 0.03em;
+    }
+
+    /* Card */
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid rgba(35,31,32,0.08);
+      padding: 2rem;
+      box-shadow: 0 2px 16px rgba(35,31,32,0.07);
+    }
+
+    /* Intro screen */
+    .intro-emoji { font-size: 48px; margin-bottom: 1rem; display: block; }
+    .intro-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      color: var(--black);
+    }
+    .intro-title span { color: var(--orange); }
+    .intro-body {
+      font-size: 16px;
+      color: var(--grey);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+    .intro-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+    }
+    .meta-pill {
+      background: var(--grey-light);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 13px;
+      color: var(--grey);
+      font-weight: 500;
+    }
+    .meta-pill span { color: var(--black); }
+
+    .start-btn {
+      width: 100%;
+      background: var(--orange);
+      color: white;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: 0.01em;
+    }
+    .start-btn:hover { background: #e07a02; }
+    .start-btn:active { transform: scale(0.98); }
+
+    /* Progress */
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.75rem;
+    }
+    .progress-track {
+      flex: 1;
+      height: 5px;
+      background: var(--grey-light);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--orange);
+      border-radius: 99px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .progress-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--grey);
+      white-space: nowrap;
+    }
+
+    /* Question */
+    .q-eyebrow {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+    .q-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 1.5rem;
+    }
+    .opt-btn {
+      background: var(--grey-light);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-family: 'Afacad', sans-serif;
+      font-size: 15px;
+      color: var(--black);
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.4;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .opt-btn:hover { border-color: var(--orange); background: var(--orange-light); }
+    .opt-btn.selected { border-color: var(--orange); background: var(--orange-light); color: var(--orange-dark); }
+
+    .next-btn {
+      width: 100%;
+      background: var(--black);
+      color: white;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 13px;
+      cursor: pointer;
+      opacity: 0.25;
+      pointer-events: none;
+      transition: opacity 0.2s, background 0.15s;
+    }
+    .next-btn.active { opacity: 1; pointer-events: auto; }
+    .next-btn.active:hover { background: #3a3637; }
+
+    /* Result */
+    .result-top {
+      text-align: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(35,31,32,0.08);
+      margin-bottom: 1.5rem;
+    }
+    .result-emoji-big { font-size: 56px; display: block; margin-bottom: 1rem; }
+    .result-tag {
+      display: inline-block;
+      background: var(--orange);
+      color: white;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 99px;
+      padding: 4px 14px;
+      margin-bottom: 0.75rem;
+    }
+    .result-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      color: var(--black);
+      line-height: 1.2;
+    }
+
+    .result-body {
+      font-size: 15px;
+      color: var(--grey);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+
+    .tips-heading {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+    }
+    .tips-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 1.75rem;
+    }
+    .tips-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: var(--black);
+      line-height: 1.5;
+    }
+    .tip-arrow {
+      color: var(--orange);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .copy-btn {
+      width: 100%;
+      background: transparent;
+      border: 2px solid var(--orange);
+      color: var(--orange);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      margin-bottom: 0.75rem;
+    }
+    .copy-btn:hover { background: var(--orange-light); }
+    .copy-btn.copied { background: var(--orange); color: white; border-color: var(--orange); }
+
+    .restart-btn {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--grey);
+      font-family: 'Afacad', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 6px 0;
+    }
+    .restart-btn:hover { color: var(--black); }
+
+    .hidden { display: none !important; }
+
+    /* Footer */
+    .site-footer {
+      margin-top: 2rem;
+      font-size: 12px;
+      color: var(--grey);
+      text-align: center;
+    }
+    .site-footer a { color: var(--orange); text-decoration: none; }
+    .site-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      body { padding: 1.25rem 0.75rem 3rem; }
+      .card { padding: 1.5rem; }
+      .intro-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="https://promo.cymru" target="_blank" rel="noopener">
+      <div class="logo-star">✦</div>
+      <div>
+        <div class="logo-name">ProMo</div>
+        <span class="logo-cymru">cymru</span>
+      </div>
+    </a>
+    <span class="tagline-badge">AI Training</span>
+  </header>
+
+  <main class="card" role="main">
+
+    <!-- Intro screen -->
+    <section id="intro-screen">
+      <span class="intro-emoji">🤖</span>
+      <h1 class="intro-title">How AI-ready are <span>you?</span></h1>
+      <p class="intro-body">Before we dive into today's session, take two minutes to check in with yourself. There are no right or wrong answers — just honest ones. You'll get a personalised result at the end that you can share in the chat.</p>
+      <div class="intro-meta">
+        <div class="meta-pill">⏱ <span>2 minutes</span></div>
+        <div class="meta-pill">❓ <span>4 questions</span></div>
+        <div class="meta-pill">🎉 <span>Personalised result</span></div>
+      </div>
+      <button class="start-btn" id="start-btn">Let's go →</button>
+    </section>
+
+    <!-- Quiz screen -->
+    <section id="quiz-screen" class="hidden">
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">1 / 4</span>
+      </div>
+      <div class="q-eyebrow" id="q-eyebrow">Question 1</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <button class="next-btn" id="next-btn">Next →</button>
+    </section>
+
+    <!-- Result screen -->
+    <section id="result-screen" class="hidden">
+      <div class="result-top">
+        <span class="result-emoji-big" id="r-emoji"></span>
+        <div class="result-tag" id="r-tag"></div>
+        <div class="result-title" id="r-title"></div>
+      </div>
+      <p class="result-body" id="r-body"></p>
+      <p class="tips-heading">Things to try after today</p>
+      <ul class="tips-list" id="r-tips"></ul>
+      <button class="copy-btn" id="copy-btn">📋 Copy my result</button>
+      <button class="restart-btn" id="restart-btn">↩ Start again</button>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Made by <a href="https://promo.cymru" target="_blank" rel="noopener">ProMo Cymru</a> &mdash; Creative Change for Social Good</p>
+  </footer>
+
+  <script>
+    const questions = [
+      {
+        text: "When someone mentions AI at work, what's your gut reaction? 👀",
+        options: [
+          { label: "😬 Slight panic — where do I even start?", score: 1 },
+          { label: "🤔 Curious but cautious", score: 2 },
+          { label: "👍 Interested — I've been exploring a bit", score: 3 },
+          { label: "🙋 Excited — I already use it regularly", score: 4 }
+        ]
+      },
+      {
+        text: "Have you ever used an AI tool like ChatGPT, Copilot, or Claude for work?",
+        options: [
+          { label: "❌ Not yet", score: 1 },
+          { label: "🐣 Once or twice, just to see what the fuss was about", score: 2 },
+          { label: "🔄 A few times, with mixed results", score: 3 },
+          { label: "✅ Yes — it's part of how I work now", score: 4 }
+        ]
+      },
+      {
+        text: "How would you describe your confidence in talking about AI with young people?",
+        options: [
+          { label: "😶 I'd rather change the subject", score: 1 },
+          { label: "🫤 I can listen but wouldn't lead the conversation", score: 2 },
+          { label: "💬 I can hold a decent chat about it", score: 3 },
+          { label: "🎤 I'd happily facilitate a discussion about it", score: 4 }
+        ]
+      },
+      {
+        text: "When you think about AI and your youth work practice, what feels most true?",
+        options: [
+          { label: "🤷 I genuinely have no idea where it fits", score: 1 },
+          { label: "🧩 I can see possibilities but haven't tried anything", score: 2 },
+          { label: "🌱 I've had a few small ideas I want to explore", score: 3 },
+          { label: "🚀 I've got plans — I just need more knowledge", score: 4 }
+        ]
+      }
+    ];
+
+    const results = [
+      {
+        min: 4, max: 6,
+        emoji: "🌱",
+        tag: "Fresh start",
+        title: "The Curious Newcomer",
+        body: "AI is still a pretty unfamiliar space for you — and that's completely fine! You're in the right place today. Everyone starts somewhere, and the fact that you're here says a lot. By the end of this session, you'll have a much clearer picture of what AI actually is (and isn't), and some practical ideas for how it might fit into your work.",
+        tips: [
+          "Get hands-on — try asking an AI chatbot a simple question today",
+          "Think about one task in your work that feels repetitive",
+          "Remember: AI is a tool, not a replacement for you"
+        ]
+      },
+      {
+        min: 7, max: 10,
+        emoji: "🔍",
+        tag: "Exploring the territory",
+        title: "The Interested Explorer",
+        body: "You're aware of AI and you've started poking around the edges — brilliant. You probably have more questions than answers right now, which is exactly the right place to be. This session should help you move from 'I've heard of it' to 'I actually get it', and give you some confidence to start experimenting more intentionally.",
+        tips: [
+          "Try one AI tool consistently for a week and see what you learn",
+          "Think about what questions young people are already asking about AI",
+          "Don't wait until you feel 'ready' — learning by doing works best"
+        ]
+      },
+      {
+        min: 11, max: 13,
+        emoji: "⚡",
+        tag: "Building momentum",
+        title: "The Confident Experimenter",
+        body: "You've got some real experience under your belt and you're starting to see how AI can be genuinely useful. You might still hit walls or feel uncertain in some areas — that's normal at this stage. Today's session should help you fill in some of the gaps, think more critically about AI in youth work, and pick up some new approaches to bring back to your practice.",
+        tips: [
+          "Think about how you can help colleagues who are earlier in this journey",
+          "Explore AI ethics and bias — it's worth going deeper on",
+          "Try using AI to support session planning or resource creation"
+        ]
+      },
+      {
+        min: 14, max: 16,
+        emoji: "🚀",
+        tag: "Already flying",
+        title: "The AI Enthusiast",
+        body: "Look at you! You're already well ahead of the curve and clearly switched on to what AI can do. Today's session is a chance to go deeper — think more critically, share your knowledge with others, and explore some of the trickier questions around using AI responsibly with young people. Your experience will be a real asset to the room.",
+        tips: [
+          "Think about how you'd explain AI risks to a young person",
+          "Explore how you might use AI to amplify young people's voices",
+          "Challenge yourself: where are the limits of AI in your practice?"
+        ]
+      }
+    ];
+
+    let current = 0;
+    let answers = [];
+    let selectedIndex = null;
+
+    function getResult(score) {
+      return results.find(r => score >= r.min && score <= r.max) || results[0];
+    }
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+      document.getElementById('intro-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+      renderQuestion();
+    });
+
+    function renderQuestion() {
+      const q = questions[current];
+      document.getElementById('q-eyebrow').textContent = 'Question ' + (current + 1);
+      document.getElementById('q-text').textContent = q.text;
+      document.getElementById('progress-fill').style.width = ((current / questions.length) * 100) + '%';
+      document.getElementById('progress-label').textContent = (current + 1) + ' / ' + questions.length;
+
+      const opts = document.getElementById('options');
+      opts.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn' + (answers[current] === i ? ' selected' : '');
+        btn.textContent = opt.label;
+        btn.addEventListener('click', () => selectOption(i));
+        opts.appendChild(btn);
+      });
+
+      selectedIndex = answers[current] !== undefined ? answers[current] : null;
+      updateNext();
+    }
+
+    function selectOption(i) {
+      answers[current] = i;
+      selectedIndex = i;
+      document.querySelectorAll('.opt-btn').forEach((b, idx) => {
+        b.classList.toggle('selected', idx === i);
+      });
+      updateNext();
+    }
+
+    function updateNext() {
+      const btn = document.getElementById('next-btn');
+      const isLast = current === questions.length - 1;
+      btn.textContent = isLast ? 'See my result 🎉' : 'Next →';
+      btn.classList.toggle('active', selectedIndex !== null);
+    }
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (selectedIndex === null) return;
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    function showResult() {
+      const score = answers.reduce((sum, a, i) => sum + questions[i].options[a].score, 0);
+      const r = getResult(score);
+
+      document.getElementById('progress-fill').style.width = '100%';
+      document.getElementById('progress-label').textContent = '✓ Done';
+
+      document.getElementById('r-emoji').textContent = r.emoji;
+      document.getElementById('r-tag').textContent = r.tag;
+      document.getElementById('r-title').textContent = r.title;
+      document.getElementById('r-body').textContent = r.body;
+
+      const tipsList = document.getElementById('r-tips');
+      tipsList.innerHTML = r.tips.map(t =>
+        '<li><span class="tip-arrow">→</span><span>' + t + '</span></li>'
+      ).join('');
+
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+
+      const copyText = 'My AI self-assessment result: ' + r.emoji + ' ' + r.title + '\n\n' + r.body + '\n\nThings to try after today:\n' + r.tips.map(t => '→ ' + t).join('\n');
+
+      const copyBtn = document.getElementById('copy-btn');
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(copyText).then(() => {
+          copyBtn.classList.add('copied');
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.textContent = '📋 Copy my result';
+          }, 2500);
+        });
+      });
+    }
+
+    document.getElementById('restart-btn').addEventListener('click', () => {
+      current = 0;
+      answers = [];
+      selectedIndex = null;
+      document.getElementById('result-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+      renderQuestion();
+    });
+  </script>
+
+</body>
+</html>
