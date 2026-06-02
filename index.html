@@ -311,6 +311,14 @@
       margin-top: 1px;
     }
 
+    .copy-instruction {
+      font-size: 14px;
+      color: var(--grey);
+      text-align: center;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
     .copy-btn {
       width: 100%;
       background: transparent;
@@ -413,6 +421,7 @@
       <p class="result-body" id="r-body"></p>
       <p class="tips-heading">Things to try after today</p>
       <ul class="tips-list" id="r-tips"></ul>
+      <p class="copy-instruction">Now you've got your result, click the copy button below and paste it into the meeting chat.</p>
       <button class="copy-btn" id="copy-btn">📋 Copy my result</button>
       <button class="restart-btn" id="restart-btn">↩ Start again</button>
     </section>
@@ -469,6 +478,7 @@
         emoji: "🌱",
         tag: "Fresh start",
         title: "The Curious Newcomer",
+        chatLine: "AI is still pretty new territory for me, but I'm here and ready to learn!",
         body: "AI is still a pretty unfamiliar space for you — and that's completely fine! You're in the right place today. Everyone starts somewhere, and the fact that you're here says a lot. By the end of this session, you'll have a much clearer picture of what AI actually is (and isn't), and some practical ideas for how it might fit into your work.",
         tips: [
           "Get hands-on — try asking an AI chatbot a simple question today",
@@ -481,6 +491,7 @@
         emoji: "🔍",
         tag: "Exploring the territory",
         title: "The Interested Explorer",
+        chatLine: "I've started poking around the edges of AI and I've got more questions than answers — but I'm ready to dig in!",
         body: "You're aware of AI and you've started poking around the edges — brilliant. You probably have more questions than answers right now, which is exactly the right place to be. This session should help you move from 'I've heard of it' to 'I actually get it', and give you some confidence to start experimenting more intentionally.",
         tips: [
           "Try one AI tool consistently for a week and see what you learn",
@@ -493,6 +504,7 @@
         emoji: "⚡",
         tag: "Building momentum",
         title: "The Confident Experimenter",
+        chatLine: "I've been experimenting with AI and starting to see how it can be genuinely useful — keen to go further!",
         body: "You've got some real experience under your belt and you're starting to see how AI can be genuinely useful. You might still hit walls or feel uncertain in some areas — that's normal at this stage. Today's session should help you fill in some of the gaps, think more critically about AI in youth work, and pick up some new approaches to bring back to your practice.",
         tips: [
           "Think about how you can help colleagues who are earlier in this journey",
@@ -505,6 +517,7 @@
         emoji: "🚀",
         tag: "Already flying",
         title: "The AI Enthusiast",
+        chatLine: "I'm well ahead of the curve and already switched on to what AI can do — today is about going even deeper!",
         body: "Look at you! You're already well ahead of the curve and clearly switched on to what AI can do. Today's session is a chance to go deeper — think more critically, share your knowledge with others, and explore some of the trickier questions around using AI responsibly with young people. Your experience will be a real asset to the room.",
         tips: [
           "Think about how you'd explain AI risks to a young person",
@@ -595,18 +608,39 @@
       document.getElementById('quiz-screen').classList.add('hidden');
       document.getElementById('result-screen').classList.remove('hidden');
 
-      const copyText = 'My AI self-assessment result: ' + r.emoji + ' ' + r.title + '\n\n' + r.body + '\n\nThings to try after today:\n' + r.tips.map(t => '→ ' + t).join('\n');
+      const copyText = r.emoji + ' I\'m ' + r.title + '! ' + r.chatLine;
 
       const copyBtn = document.getElementById('copy-btn');
       copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(copyText).then(() => {
+        function onSuccess() {
           copyBtn.classList.add('copied');
           copyBtn.textContent = '✅ Copied!';
           setTimeout(() => {
             copyBtn.classList.remove('copied');
             copyBtn.textContent = '📋 Copy my result';
           }, 2500);
-        });
+        }
+        function fallbackCopy() {
+          const ta = document.createElement('textarea');
+          ta.value = copyText;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          try {
+            document.execCommand('copy');
+            onSuccess();
+          } catch(e) {
+            copyBtn.textContent = '⚠️ Copy failed — please copy manually';
+          }
+          document.body.removeChild(ta);
+        }
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(copyText).then(onSuccess).catch(fallbackCopy);
+        } else {
+          fallbackCopy();
+        }
       });
     }
 
